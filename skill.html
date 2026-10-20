@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontend Showcase Application</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    /* Custom Scrollbar for sleek appearance */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Enforce absolute white background */
+    body {
+      background-color: #ffffff !important;
+      color: #0f172a;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    /* Card Hover Animations */
+    .app-card {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .app-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Modal Fade In Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-animate {
+      animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
+
+  <!-- ==================== HEADER & NAVIGATION ==================== -->
+  <header class="sticky top-0 z-40 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-sm">
+          <i data-lucide="layers" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-lg font-bold text-slate-900 tracking-tight block leading-tight">DevPortal</span>
+          <span class="text-xs text-indigo-600 font-semibold tracking-wider uppercase block">Frontend App</span>
+        </div>
+      </div>
+
+      <!-- Desktop Search Bar -->
+      <div class="hidden md:flex flex-1 max-w-md relative">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input 
+          type="text" 
+          id="desktopSearchInput" 
+          placeholder="Search by title, tag, or description..." 
+          class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition"
+        />
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="#projects" class="hover:text-indigo-600 transition">Projects</a>
+        <a href="#features" class="hover:text-indigo-600 transition">Features</a>
+        <a href="#contact" class="hover:text-indigo-600 transition">Contact</a>
+      </nav>
+
+      <!-- Action & Mobile Toggle Buttons -->
+      <div class="flex items-center gap-2">
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition shadow-sm">
+          <span>Get Started</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+
+        <button 
+          id="mobileMenuBtn" 
+          class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition border border-slate-200" 
+          aria-label="Toggle Navigation Menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileDrawer" class="hidden md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-4">
+      <div class="relative">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input 
+          type="text" 
+          id="mobileSearchInput" 
+          placeholder="Search projects..." 
+          class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600"
+        />
+      </div>
+      <nav class="flex flex-col space-y-2 text-sm font-medium text-slate-700">
+        <a href="#projects" class="mobile-nav-link p-2 rounded-md hover:bg-slate-50">Projects</a>
+        <a href="#features" class="mobile-nav-link p-2 rounded-md hover:bg-slate-50">Features</a>
+        <a href="#contact" class="mobile-nav-link p-2 rounded-md hover:bg-slate-50">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="flex-grow">
+    
+    <!-- Hero Banner -->
+    <section class="bg-white border-b border-slate-200 py-12 md:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 mb-4">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Task 1 Completed
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+          Responsive Frontend Application Showcase
+        </h1>
+        <p class="text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
+          A fully interactive, client-side web application built with HTML, CSS, JavaScript, and Tailwind CSS. Featuring dynamic filtering, real-time search, interactive state cards, and form validation.
+        </p>
+
+        <!-- Dynamic Counter Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
+          <div class="p-3 bg-white border border-slate-200 rounded-xl">
+            <span id="statTotalProjects" class="block text-2xl font-bold text-slate-900">0</span>
+            <span class="text-xs text-slate-500 font-medium">Total Items</span>
+          </div>
+          <div class="p-3 bg-white border border-slate-200 rounded-xl">
+            <span id="statBookmarks" class="block text-2xl font-bold text-indigo-600">0</span>
+            <span class="text-xs text-slate-500 font-medium">Bookmarked</span>
+          </div>
+          <div class="p-3 bg-white border border-slate-200 rounded-xl col-span-2 sm:col-span-1">
+            <span id="statActiveCategory" class="block text-2xl font-bold text-slate-900 truncate">All</span>
+            <span class="text-xs text-slate-500 font-medium">Active Category</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Cards & Filtering Section -->
+    <section id="projects" class="py-12 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900">Explore Projects</h2>
+            <p class="text-slate-500 text-sm mt-1">Filter items by category or use the search bar to find specific features.</p>
+          </div>
+
+          <!-- Category Filter Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none" id="categoryContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated cards -->
+        </div>
+
+        <!-- Empty State View -->
+        <div id="emptyState" class="hidden text-center py-16 bg-white border border-dashed border-slate-200 rounded-2xl my-6">
+          <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="search-x" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-semibold text-slate-900">No matching projects found</h3>
+          <p class="text-slate-500 text-sm max-w-sm mx-auto mt-1 mb-4">Try tweaking your search keywords or switching category filters.</p>
+          <button id="resetFiltersBtn" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition">
+            Reset Filters
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Form Section -->
+    <section id="contact" class="py-12 bg-white border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+          
+          <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-slate-900">Contact &amp; Feedback</h2>
+            <p class="text-slate-500 text-sm mt-1">Send us a message or request a project consultation below.</p>
+          </div>
+
+          <!-- Form Container -->
+          <form id="contactForm" class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-5" novalidate>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <!-- Full Name -->
+              <div>
+                <label for="fullName" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Full Name *</label>
+                <div class="relative">
+                  <input 
+                    type="text" 
+                    id="fullName" 
+                    placeholder="Enter your name" 
+                    class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition"
+                    required 
+                  />
+                </div>
+                <span id="nameError" class="text-xs text-rose-600 mt-1 hidden block">Please enter your name.</span>
+              </div>
+
+              <!-- Email Address -->
+              <div>
+                <label for="email" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Email Address *</label>
+                <div class="relative">
+                  <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="name@example.com" 
+                    class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition"
+                    required 
+                  />
+                </div>
+                <span id="emailError" class="text-xs text-rose-600 mt-1 hidden block">Please enter a valid email address.</span>
+              </div>
+            </div>
+
+            <!-- Subject Category -->
+            <div>
+              <label for="subject" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Inquiry Type</label>
+              <select id="subject" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition">
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Frontend Project Feedback">Frontend Project Feedback</option>
+                <option value="Bug Report">Bug Report</option>
+                <option value="Collaboration Opportunity">Collaboration Opportunity</option>
+              </select>
+            </div>
+
+            <!-- Message Field -->
+            <div>
+              <label for="message" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Message *</label>
+              <textarea 
+                id="message" 
+                rows="4" 
+                placeholder="Write your message here..." 
+                class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition resize-none"
+                required
+              ></textarea>
+              <span id="messageError" class="text-xs text-rose-600 mt-1 hidden block">Message must be at least 10 characters long.</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              id="submitBtn" 
+              class="w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-lg transition shadow-sm flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send Message</span>
+            </button>
+
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 DevPortal. Task 1: Interactive Frontend Application.</p>
+      <div class="flex items-center gap-4">
+        <a href="#projects" class="hover:text-slate-900 transition">Projects</a>
+        <a href="#contact" class="hover:text-slate-900 transition">Contact Form</a>
+        <a href="#" class="hover:text-slate-900 transition">Back to Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== DETAIL MODAL ==================== -->
+  <div id="projectModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 relative shadow-xl modal-animate">
+      
+      <!-- Close Button -->
+      <button id="closeModalBtn" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Modal Content -->
+      <div id="modalContent">
+        <!-- Dynamically rendered details -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // Sample Data Source
+    const projectsData = [
+      {
+        id: 1,
+        title: "E-Commerce Dashboard",
+        category: "Development",
+        badge: "Featured",
+        rating: 4.9,
+        reviews: 28,
+        description: "Comprehensive analytics portal featuring dynamic revenue charts, inventory trackers, and responsive data tables.",
+        techStack: ["HTML5", "CSS3", "JavaScript", "Chart.js"],
+        featured: true
+      },
+      {
+        id: 2,
+        title: "Design System UI Kit",
+        category: "Design",
+        badge: "Popular",
+        rating: 4.8,
+        reviews: 42,
+        description: "A complete set of accessible, responsive UI elements built with utility-first CSS principles and strict tokens.",
+        techStack: ["Tailwind CSS", "Figma", "Accessibility"],
+        featured: false
+      },
+      {
+        id: 3,
+        title: "AI Prompt Generator",
+        category: "AI",
+        badge: "New",
+        rating: 4.7,
+        reviews: 15,
+        description: "Interactive front-end tool designed for refining, testing, and optimizing machine learning system prompts.",
+        techStack: ["React", "API Integration", "Tailwind"],
+        featured: true
+      },
+      {
+        id: 4,
+        title: "SEO Keyword Strategy",
+        category: "Marketing",
+        badge: "Trending",
+        rating: 4.6,
+        reviews: 19,
+        description: "Interactive keyword density and trend tracking dashboard with client-side filtering and visual indicators.",
+        techStack: ["JavaScript", "CSS Grid", "REST APIs"],
+        featured: false
+      },
+      {
+        id: 5,
+        title: "Smart Smart Home App",
+        category: "Tech",
+        badge: "Updated",
+        rating: 4.9,
+        reviews: 34,
+        description: "Control layout UI for modern IoT environments with real-time state switches and sensor data widgets.",
+        techStack: ["WebSockets", "HTML5", "Tailwind"],
+        featured: false
+      },
+      {
+        id: 6,
+        title: "DevOps Pipeline Monitor",
+        category: "Development",
+        badge: "Essential",
+        rating: 4.8,
+        reviews: 22,
+        description: "Real-time deployment pipeline status board with automated toast alerts and live log inspection views.",
+        techStack: ["JavaScript", "JSON", "Microservices"],
+        featured: false
+      }
+    ];
+
+    // App State Management
+    let currentCategory = "All";
+    let searchQuery = "";
+    let bookmarkedIds = new Set([1]); // Default bookmark
+
+    // DOM Elements
+    const cardsGrid = document.getElementById("cardsGrid");
+    const emptyState = document.getElementById("emptyState");
+    const categoryContainer = document.getElementById("categoryContainer");
+    const desktopSearchInput = document.getElementById("desktopSearchInput");
+    const mobileSearchInput = document.getElementById("mobileSearchInput");
+    const statTotalProjects = document.getElementById("statTotalProjects");
+    const statBookmarks = document.getElementById("statBookmarks");
+    const statActiveCategory = document.getElementById("statActiveCategory");
+    const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+    
+    // Modal & Drawer Elements
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileDrawer = document.getElementById("mobileDrawer");
+    const projectModal = document.getElementById("projectModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const modalContent = document.getElementById("modalContent");
+    const toastContainer = document.getElementById("toastContainer");
+
+    // Contact Form Elements
+    const contactForm = document.getElementById("contactForm");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const messageInput = document.getElementById("message");
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const messageError = document.getElementById("messageError");
+
+    // Categories List
+    const categories = ["All", "Development", "Design", "AI", "Marketing", "Tech"];
+
+    // Initialize Application
+    function init() {
+      renderCategoryPills();
+      renderCards();
+      updateStats();
+      setupEventListeners();
+      lucide.createIcons();
+    }
+
+    // Render Category Filter Buttons
+    function renderCategoryPills() {
+      categoryContainer.innerHTML = categories.map(cat => {
+        const isActive = cat === currentCategory;
+        return `
+          <button 
+            data-category="${cat}"
+            class="category-btn px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
+              isActive 
+                ? "bg-indigo-600 text-white shadow-sm" 
+                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+            }"
+          >
+            ${cat}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Filter Items Based on Search and Category
+    function getFilteredProjects() {
+      return projectsData.filter(project => {
+        const matchesCategory = currentCategory === "All" || project.category === currentCategory;
+        const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              project.techStack.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesCategory && matchesSearch;
+      });
+    }
+
+    // Render Grid Cards
+    function renderCards() {
+      const filtered = getFilteredProjects();
+
+      if (filtered.length === 0) {
+        cardsGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+
+      cardsGrid.innerHTML = filtered.map(project => {
+        const isBookmarked = bookmarkedIds.has(project.id);
+        return `
+          <div class="app-card bg-white border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <!-- Top Card Bar -->
+              <div class="flex items-center justify-between mb-3">
+                <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                  ${project.category}
+                </span>
+                
+                <button 
+                  onclick="toggleBookmark(${project.id})" 
+                  class="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-amber-50 transition"
+                  title="Bookmark Project"
+                >
+                  <i data-lucide="bookmark" class="w-4 h-4 ${isBookmarked ? "fill-amber-400 text-amber-500" : ""}"></i>
+                </button>
+              </div>
+
+              <!-- Card Title & Description -->
+              <h3 class="font-bold text-slate-900 text-lg mb-2 line-clamp-1">${project.title}</h3>
+              <p class="text-slate-600 text-sm mb-4 line-clamp-2 leading-relaxed">${project.description}</p>
+            </div>
+
+            <div>
+              <!-- Tech Badges -->
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                ${project.techStack.map(tech => `
+                  <span class="px-2 py-0.5 text-[11px] font-medium bg-slate-50 text-slate-600 rounded border border-slate-200">
+                    ${tech}
+                  </span>
+                `).join('')}
+              </div>
+
+              <!-- Card Footer Actions -->
+              <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-1 text-xs text-amber-500 font-semibold">
+                  <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                  <span>${project.rating}</span>
+                  <span class="text-slate-400 font-normal">(${project.reviews})</span>
+                </div>
+
+                <button 
+                  onclick="openModal(${project.id})" 
+                  class="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition"
+                >
+                  <span>View Details</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // Update Counter Dashboard Stats
+    function updateStats() {
+      const filtered = getFilteredProjects();
+      statTotalProjects.textContent = filtered.length;
+      statBookmarks.textContent = bookmarkedIds.size;
+      statActiveCategory.textContent = currentCategory;
+    }
+
+    // Toggle Bookmark State
+    window.toggleBookmark = function(id) {
+      if (bookmarkedIds.has(id)) {
+        bookmarkedIds.delete(id);
+        showToast("Bookmark removed", "info");
+      } else {
+        bookmarkedIds.add(id);
+        showToast("Project saved to bookmarks", "success");
+      }
+      renderCards();
+      updateStats();
+    };
+
+    // Modal Display Logic
+    window.openModal = function(id) {
+      const project = projectsData.find(p => p.id === id);
+      if (!project) return;
+
+      modalContent.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+              ${project.category}
+            </span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+              ${project.badge}
+            </span>
+          </div>
+
+          <h2 class="text-xl font-bold text-slate-900">${project.title}</h2>
+          
+          <p class="text-slate-600 text-sm leading-relaxed">${project.description}</p>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <div class="text-xs font-semibold text-slate-700 uppercase tracking-wider">Technologies Used</div>
+            <div class="flex flex-wrap gap-1.5">
+              ${project.techStack.map(t => `<span class="px-2 py-1 text-xs bg-white text-slate-700 rounded border border-slate-200 font-medium">${t}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-2">
+            <div class="flex items-center gap-1 text-amber-500 font-semibold">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <span>${project.rating} rating from ${project.reviews} reviews</span>
+            </div>
+          </div>
+
+          <div class="pt-4 flex gap-3">
+            <button 
+              onclick="toggleBookmark(${project.id}); closeModal();" 
+              class="flex-1 py-2.5 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
+            >
+              ${bookmarkedIds.has(project.id) ? "Remove Bookmark" : "Save Bookmark"}
+            </button>
+            <button 
+              onclick="closeModal(); showToast('Demo action executed', 'info');" 
+              class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition"
+            >
+              Launch Preview
+            </button>
+          </div>
+        </div>
+      `;
+
+      projectModal.classList.remove("hidden");
+      lucide.createIcons();
+    };
+
+    function closeModal() {
+      projectModal.classList.add("hidden");
+    }
+
+    // Toast Alert Notification
+    function showToast(message, type = "success") {
+      const toast = document.createElement("div");
+      const isSuccess = type === "success";
+      
+      toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 bg-white border ${
+        isSuccess ? "border-emerald-200 text-emerald-900" : "border-slate-200 text-slate-900"
+      } rounded-xl shadow-lg text-xs font-medium modal-animate`;
+
+      toast.innerHTML = `
+        <i data-lucide="${isSuccess ? "check-circle-2" : "info"}" class="w-4 h-4 ${isSuccess ? "text-emerald-600" : "text-indigo-600"}"></i>
+        <span>${message}</span>
+      `;
+
+      toastContainer.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.2s ease";
+        setTimeout(() => toast.remove(), 200);
+      }, 2500);
+    }
+
+    // Event Listeners Initialization
+    function setupEventListeners() {
+      // Category Button Clicks
+      categoryContainer.addEventListener("click", (e) => {
+        const btn = e.target.closest(".category-btn");
+        if (!btn) return;
+        currentCategory = btn.dataset.category;
+        renderCategoryPills();
+        renderCards();
+        updateStats();
+      });
+
+      // Desktop Search
+      desktopSearchInput.addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        mobileSearchInput.value = searchQuery;
+        renderCards();
+        updateStats();
+      });
+
+      // Mobile Search
+      mobileSearchInput.addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        desktopSearchInput.value = searchQuery;
+        renderCards();
+        updateStats();
+      });
+
+      // Reset Filters Button
+      resetFiltersBtn.addEventListener("click", () => {
+        searchQuery = "";
+        currentCategory = "All";
+        desktopSearchInput.value = "";
+        mobileSearchInput.value = "";
+        renderCategoryPills();
+        renderCards();
+        updateStats();
+      });
+
+      // Mobile Drawer Toggle
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileDrawer.classList.toggle("hidden");
+      });
+
+      // Modal Close Listeners
+      closeModalBtn.addEventListener("click", closeModal);
+      projectModal.addEventListener("click", (e) => {
+        if (e.target === projectModal) closeModal();
+      });
+
+      // Contact Form Validation & Submission
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let isValid = true;
+
+        // Name Validation
+        if (!fullNameInput.value.trim()) {
+          nameError.classList.remove("hidden");
+          fullNameInput.classList.add("border-rose-500");
+          isValid = false;
+        } else {
+          nameError.classList.add("hidden");
+          fullNameInput.classList.remove("border-rose-500");
+        }
+
+        // Email Validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value.trim())) {
+          emailError.classList.remove("hidden");
+          emailInput.classList.add("border-rose-500");
+          isValid = false;
+        } else {
+          emailError.classList.add("hidden");
+          emailInput.classList.remove("border-rose-500");
+        }
+
+        // Message Validation
+        if (messageInput.value.trim().length < 10) {
+          messageError.classList.remove("hidden");
+          messageInput.classList.add("border-rose-500");
+          isValid = false;
+        } else {
+          messageError.classList.add("hidden");
+          messageInput.classList.remove("border-rose-500");
+        }
+
+        // Successful Form Submission
+        if (isValid) {
+          showToast("Message sent successfully!", "success");
+          contactForm.reset();
+        }
+      });
+    }
+
+    // Run Initialization on Load
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
